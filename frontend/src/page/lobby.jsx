@@ -1,0 +1,59 @@
+import React, { useState } from 'react'
+
+export default function Lobby() {
+    const [email, setEmail] = useState("");
+    const [room, setroom] = useState("");
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log("Email:", email, "Password:", room);
+      // Add your authentication logic here
+    };
+  
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gray-900">
+        <div className="w-full max-w-md p-8 bg-gray-800 shadow-lg rounded-lg">
+          <h2 className="text-2xl font-bold text-white text-center">Join Room</h2>
+  
+          <form onSubmit={handleSubmit} className="mt-6">
+            <div>
+              <label className="block text-gray-300 text-sm font-semibold">
+                Email
+              </label>
+              <input
+                type="email"
+                className="w-full px-4 py-2 mt-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+  
+            <div className="mt-4">
+              <label className="block text-gray-300 text-sm font-semibold">
+                Room
+              </label>
+              <input
+                type="text"
+                className="w-full px-4 py-2 mt-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your room"
+                value={room}
+                onChange={(e) => setroom(e.target.value)}
+                required
+              />
+            </div>
+  
+            <button
+              type="submit"
+              className="w-full mt-6 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all"
+            >
+              submit
+            </button>
+          </form>
+  
+          
+        </div>
+      </div>
+    );
+}
