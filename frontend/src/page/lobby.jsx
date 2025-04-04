@@ -1,15 +1,35 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import {useSocket} from "../context/socketprovider" 
+import { useNavigate } from 'react-router-dom';
 
 export default function Lobby() {
     const [email, setEmail] = useState("");
     const [room, setroom] = useState("");
+    
+      const socket = useSocket()
+      const navigate = useNavigate()
 
-    const handleSubmit = (e) => {
+    const handleSubmit = useCallback((e) => {
       e.preventDefault();
-      console.log("Email:", email, "Password:", room);
+      console.log("Email:", email, "room:", room);
+      socket.emit("room-join",{email,room})
       // Add your authentication logic here
-    };
-  
+    },[email,room,socket])
+
+    const handlejoin =useCallback((data)=>{
+      const {email,room} = data
+      console.log(email,room);
+      navigate(`/room/${room}`)
+      
+    },[socket])
+
+    useEffect(()=>{
+      socket.on("room-join",handlejoin)
+
+      return () =>{
+        socket.off("room-join",handlejoin)
+      }
+      },[socket,handlejoin])
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-900">
         <div className="w-full max-w-md p-8 bg-gray-800 shadow-lg rounded-lg">

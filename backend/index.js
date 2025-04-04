@@ -6,6 +6,23 @@ import {} from "cors"
 const io = new Server(8000,{
     cors:true,
 })
+const emailToSocketIdMap = new Map();
+const socketidToEmailMap = new Map();
+
 io.on("connection",(socket)=>{
-    socket.emit("hello","world")
+   
+    socket.on("room-join",(data)=>{
+        const {email,room} = data
+        console.log(email,room)
+        emailToSocketIdMap.set(email, socket.id);
+        socketidToEmailMap.set(socket.id, email);
+        io.to(room).emit("user:joined", { email, id: socket.id });
+        socket.join(room);
+
+    io.to(socket.id).emit("room-join",data)
+
+    })
+    socket.on("user:call", ({ to, offer }) => {
+        io.to(to).emit("incomming:call", { from: socket.id, offer });
+      });
 })
