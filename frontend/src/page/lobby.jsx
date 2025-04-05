@@ -13,6 +13,8 @@ export default function Lobby() {
       e.preventDefault();
       console.log("Email:", email, "room:", room);
       socket.emit("room-join",{email,room})
+      navigate(`/room/${room}`)
+
       // Add your authentication logic here
     },[email,room,socket])
 
