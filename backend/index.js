@@ -3,8 +3,10 @@ import { Server } from "socket.io";
 import {} from "cors"
 
 
-const io = new Server(8000,{
-    cors:true,
+const io = new Server(process.env.PORT || 8000,{
+  cors: {
+    origin: "*",
+  }
 })
 const emailToSocketIdMap = new Map();
 const socketidToEmailMap = new Map();
